@@ -1,0 +1,36 @@
+Dataset: https://tricksroad.bitrix24.com/~bHnJV
+1. Calculate Histogram for time spent on day calls by customers
+plt.hist(ch['total day minutes'], bins= 10, facecolor= 'tan')
+plt.xlabel('Total Day Minutes')
+plt.ylabel('No. of Customers')
+plt.show()
+
+2. How do we categorize the churner and the non-churner for the time spent on day calls(total day minutes)
+import seaborn as sns
+g = sns.FacetGrid(ch, col="churn")
+g.map(plt.hist, "total day minutes")
+
+3. Find the number of customers who did opt for voice mail plan
+ch['voice mail plan'].value_counts()
+
+4. Create a boxplot for a categorical variable(international plan) and continuous variable(area code)
+sns.boxplot(x = "international plan", y = "area code", data=ch)
+
+5. Create a crosstab for the area code to find the churner or non-churner.
+pd.crosstab(ch['area code'],ch['voice mail plan'])
+
+6. calculate the total international minutes for all the combinations -total intl minutes, area code','voice mail plan', international plan
+pd.pivot_table(ch, 'total intl minutes', index = ['area code','voice mail plan'], columns=['international plan'])
+
+7. Find Standard deviation of total night calls
+ch['total night calls'].std()
+
+8. Plot a distplot for the above result to look at specifically total night calls
+sns.distplot(ch['total night calls'])
+
+9. Plot a histogram to group it by churner or non-churner for the column area code
+ch.hist(by='churn', column = 'area code')
+
+10. Calculate areawise churner or non-churner using countplot
+ch['area code']= ch['area code'].astype('category')
+sns.countplot(x="area code", hue= "churn", data=ch)
